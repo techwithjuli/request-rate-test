@@ -8,9 +8,9 @@ app = Flask(__name__)
 # Hostname "db" kommt aus docker-compose
 db_config = {
     'host': 'db',
-    'dbname': 'example_db',
-    'user': 'example',
-    'password': 'example'
+    'dbname': 'test_db',
+    'user': 'julian',
+    'password': 'test123'
 }
 
 # Hilfsfunktion zum Erstellen einer Tabelle (falls nicht vorhanden)
@@ -82,4 +82,4 @@ def get_entries():
 
 if __name__ == '__main__':
     # Debug nur lokal, für Produktion besser gunicorn usw. nutzen
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
