@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  webserver:
+    build: ./webserver
+    container_name: webserver
+    ports:
+      - "80:80"               # Port 80 wird nach außen freigegeben
+    depends_on:
+      - backend
+    links:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+      - middleware
+    links:
+      - db
+      - middleware
+    networks:
+      - app-network
+
+  middleware:
+    build: ./middleware
+    container_name: middleware
+    ports:
+      - "6000:6000"
+    networks:
+      - app-network
+
+  db:
+    image: postgres:latest
+    container_name: db
+    environment:
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: example_db
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
