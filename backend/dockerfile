@@ -9,6 +9,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Quellcode kopieren
 COPY main.py .
 
-EXPOSE 8080
+EXPOSE 5000
 
 CMD ["python", "main.py"]

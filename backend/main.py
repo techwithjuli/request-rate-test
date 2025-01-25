@@ -82,4 +82,4 @@ def get_entries():
 
 if __name__ == '__main__':
     # Debug nur lokal, für Produktion besser gunicorn usw. nutzen
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
