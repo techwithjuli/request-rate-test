@@ -71,6 +71,10 @@ def receive_data():
 
     except Exception as e:
         return f"Fehler bei der Verarbeitung: {str(e)}", 500
+    
+@app.errorhandler(404)
+def invalid_route(e):
+    return "Invalid!"
 
 @app.route('/api/entries', methods=['GET'])
 def get_entries():
@@ -99,4 +103,4 @@ def ratelimit_error(e):
 
 if __name__ == '__main__':
     # Debug nur lokal, für Produktion besser gunicorn usw. nutzen
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False)

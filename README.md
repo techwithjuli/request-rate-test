@@ -1,18 +1,17 @@
 # request-rate-test
 
-Dies ist mein Test Projekt für "Request Info & Rate Limit"
+This is my test project for “Request Info & Rate Limit”.
 
 ## Features
-- webserver (nginx): Statische Inhalte + Reserver Proxy für /api/
-- backend (Node.js): Empfängt Formulardaten, ruft Middleware auf, schreibt in Postgres
-- middleware (Nodejs): Einfache Kategorisierung
-- db (Postgres): Persistente Speicherung
+1. **Webserver (NGINX)** Delivers static content (HTML/CSS/JS) and forwards all calls with `/api/data` an das **Backend** weiter.
+2. **Backend (Python + Flask)** Takes request, and calls the **Middleware** for (example)Categorization and safe data in db > (PostgreSQL).
+3. **Middleware (Python + Flask)** Performs a simple text categorization (in this example).
+4. **DBMS (PostgreSQL)** Safe the incoming data.
 
-## Verwendung
-- installieren: docker, python(lts version), flask (pip install flask)
-- starten: docker-compose up --build
-- docker starten
+## Use
+- install: docker, python(lts version), flask (pip install flask)
+- start your docker engine first, than run: **docker-compose up --build**
 
-## Beispiel
+## Example
 ![alt text](assets/image.png)
 
