@@ -1,8 +1,16 @@
 from flask import Flask, request, jsonify
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import requests
 import psycopg2
 
 app = Flask(__name__)
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["4 per 5 minutes"]
+)
 
 # Datenbankverbindung (Postgres)
 # Hostname "db" kommt aus docker-compose
@@ -12,6 +20,9 @@ db_config = {
     'user': 'julian',
     'password': 'test123'
 }
+
+def index():
+    return jsonify({"message":"Du darfst maximal 4 Anfragen pro 5 Minuten senden."})
 
 # Hilfsfunktion zum Erstellen einer Tabelle (falls nicht vorhanden)
 def init_db():
@@ -31,6 +42,7 @@ def init_db():
 init_db()
 
 @app.route('/api/data', methods=['POST'])
+@limiter.limit("4 per 5 minutes")
 def receive_data():
     input_text = request.form.get('inputText')
     if not input_text:
@@ -79,6 +91,11 @@ def get_entries():
 
     except Exception as e:
         return f"Fehler beim Lesen aus der DB: {str(e)}", 500
+    
+# Errorhandling bei zu vielen Anfragen in der Minute
+@app.errorhandler(429)
+def ratelimit_error(e):
+    return jsonify(error="Zu viele Anfragen. Bitte versuche es später erneut!"), 429
 
 if __name__ == '__main__':
     # Debug nur lokal, für Produktion besser gunicorn usw. nutzen
