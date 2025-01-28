@@ -72,6 +72,7 @@ def receive_data():
     except Exception as e:
         return f"Fehler bei der Verarbeitung: {str(e)}", 500
     
+# Da er nicht mal durch den try Block kommt hier ein errorhandler für die 404 
 @app.errorhandler(404)
 def invalid_route(e):
     return "Invalid!"
